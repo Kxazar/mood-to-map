@@ -84,9 +84,6 @@ async function init() {
     if (health.kimi) {
       statusPill.textContent = health.provider || "Kimi";
       statusPill.classList.add("kimi");
-      if (aiPlacesToggle) {
-        aiPlacesToggle.checked = true;
-      }
     } else {
       statusPill.textContent = "Local";
     }
