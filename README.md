@@ -57,9 +57,16 @@ The demo also supports route variants, per-stop Google Maps links, a full-route 
 
 Each city also has a 15-point attraction layer on the map. Attraction cards use Wikipedia/Wikimedia photos, then ask Kimi for compact place notes on click; generated notes are cached in `logs/attraction-copy-cache.json`.
 
-## VPS Deployment
+## Deployments
 
-Current demo URL:
+Vercel production:
+
+```txt
+https://mood-to-map.vercel.app/
+```
+
+VPS fallback/demo:
+
 
 ```txt
 http://77.232.41.200:8080/

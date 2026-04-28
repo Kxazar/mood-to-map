@@ -61,10 +61,11 @@ Hermes Agent is the intended route director layer for the final submission:
 ## Current Deployments
 
 ```txt
+https://mood-to-map.vercel.app/
 http://77.232.41.200:8080/
 ```
 
-The project is also prepared for Vercel deployment with Python serverless API functions in `api/` and static assets in `public/`.
+The primary deployment is on Vercel with Python serverless API functions in `api/` and static assets in `public/`. The VPS URL remains available as a fallback.
 
 ## Next Steps
 
