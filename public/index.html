@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mood-to-Map</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-row">
+          <span class="brand-mark">MTM</span>
+          <div>
+            <h1>Mood-to-Map</h1>
+            <p class="eyebrow">Hermes city guide</p>
+          </div>
+        </div>
+        <div class="topbar-meta">
+          <span>Miami</span>
+          <span>Dubai</span>
+          <span>Abu Dhabi</span>
+          <div class="status-pill" id="statusPill">Local</div>
+        </div>
+      </header>
+
+      <section class="control-panel" aria-label="Route controls">
+        <form id="routeForm" class="route-form">
+          <fieldset>
+            <legend>City</legend>
+            <div class="segmented" role="radiogroup" aria-label="City">
+              <label>
+                <input type="radio" name="city" value="miami" checked />
+                <span>Miami</span>
+              </label>
+              <label>
+                <input type="radio" name="city" value="dubai" />
+                <span>Dubai</span>
+              </label>
+              <label>
+                <input type="radio" name="city" value="abu-dhabi" />
+                <span>Abu Dhabi</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Mood</span>
+            <textarea
+              id="prompt"
+              name="prompt"
+              rows="3"
+              maxlength="280"
+              placeholder="I have five hours, want architecture, coffee, cinematic views, and quiet luxury."
+            ></textarea>
+          </label>
+
+          <div class="chips" aria-label="Sample moods">
+            <button type="button" data-prompt="A quiet luxury afternoon with architecture, coffee, and a golden-hour view.">Quiet luxury</button>
+            <button type="button" data-prompt="A local route with food, color, and one place that tourists usually miss.">Local food</button>
+            <button type="button" data-prompt="A cinematic photo walk with water, skyline, and a strong final scene.">Photo walk</button>
+          </div>
+
+          <div class="form-grid">
+            <label class="field">
+              <span>Persona</span>
+              <select id="persona" name="persona">
+                <option value="cinematic">Cinematic</option>
+                <option value="local">Local</option>
+                <option value="architecture">Architecture</option>
+                <option value="luxury">Quiet Luxury</option>
+                <option value="food">Food-first</option>
+                <option value="family">Family</option>
+                <option value="introvert">Introvert</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Duration</span>
+              <select id="duration" name="duration">
+                <option value="2h">2 hours</option>
+                <option value="half-day" selected>Half day</option>
+                <option value="full-day">Full day</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Start</span>
+              <select id="startTime" name="startTime">
+                <option value="09:00">09:00</option>
+                <option value="10:00" selected>10:00</option>
+                <option value="13:00">13:00</option>
+                <option value="16:00">16:00</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Budget</span>
+              <select id="budget" name="budget">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+
+            <label class="toggle">
+              <input id="useKimi" name="useKimi" type="checkbox" checked />
+              <span>Kimi polish</span>
+            </label>
+
+            <label class="toggle">
+              <input id="useAiPlaces" name="useAiPlaces" type="checkbox" checked />
+              <span>AI picks places</span>
+            </label>
+          </div>
+
+          <fieldset>
+            <legend>Constraints</legend>
+            <div class="checks">
+              <label><input type="checkbox" name="avoidCrowds" /> Avoid crowds</label>
+              <label><input type="checkbox" name="heatFriendly" checked /> Heat friendly</label>
+              <label><input type="checkbox" name="walking" /> Walking bias</label>
+              <label><input type="checkbox" name="family" /> Family easy</label>
+            </div>
+          </fieldset>
+
+          <button class="primary-action" type="submit">Generate route</button>
+        </form>
+
+        <section id="attractionPanel" class="attraction-panel" hidden aria-live="polite">
+          <img id="attractionPhoto" alt="" />
+          <div class="attraction-body">
+            <p id="attractionSource" class="eyebrow">Attraction</p>
+            <h2 id="attractionTitle">Select a place</h2>
+            <p id="attractionSummary">Click any map attraction to load a Kimi guide note.</p>
+            <div id="attractionMeta" class="route-meta"></div>
+            <div id="attractionCopy" class="attraction-copy"></div>
+            <div class="attraction-actions">
+              <a id="attractionMapsLink" href="#" target="_blank" rel="noreferrer">Open in Maps</a>
+              <a id="attractionWikiLink" href="#" target="_blank" rel="noreferrer">Photo source</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="route-output" aria-live="polite">
+          <div class="route-heading">
+            <p id="routeSource" class="eyebrow">Ready</p>
+            <h2 id="routeTitle">Choose a mood</h2>
+            <p id="routeLogline">The route will appear here with stops, reasons, and a story arc.</p>
+          </div>
+          <div id="routeMeta" class="route-meta"></div>
+          <div id="routeTools" class="route-tools" hidden>
+            <div class="variant-bar" aria-label="Route variants">
+              <button type="button" data-variant="balanced" class="active">Balanced</button>
+              <button type="button" data-variant="local">More local</button>
+              <button type="button" data-variant="scenic">More scenic</button>
+              <button type="button" data-variant="less-walking">Less walking</button>
+            </div>
+            <a id="routeMapsLink" class="route-map-link" href="#" target="_blank" rel="noreferrer">Open full route</a>
+          </div>
+          <ol id="stopsList" class="stops-list"></ol>
+        </section>
+      </section>
+
+      <section class="map-panel" aria-label="Route map">
+        <div id="map"></div>
+        <div class="map-caption" id="mapCaption">Miami</div>
+      </section>
+    </main>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="/app.js?v=place-briefing-v2" type="module"></script>
+  </body>
+</html>

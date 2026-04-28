@@ -1,0 +1,409 @@
+{
+  "attractions": [
+    {
+      "id": "miami-art-deco",
+      "city": "miami",
+      "name": "Art Deco Historic District",
+      "lat": 25.7806,
+      "lng": -80.1321,
+      "tags": ["architecture", "heritage", "photo"],
+      "wiki_title": "Miami Beach Architectural District"
+    },
+    {
+      "id": "miami-south-pointe-park",
+      "city": "miami",
+      "name": "South Pointe Park",
+      "lat": 25.7664,
+      "lng": -80.1342,
+      "tags": ["waterfront", "views", "park"],
+      "wiki_title": "South Pointe Park"
+    },
+    {
+      "id": "miami-wynwood-walls",
+      "city": "miami",
+      "name": "Wynwood Walls",
+      "lat": 25.8011,
+      "lng": -80.1996,
+      "tags": ["art", "neighborhood", "photo"],
+      "wiki_title": "Wynwood Walls"
+    },
+    {
+      "id": "miami-vizcaya",
+      "city": "miami",
+      "name": "Vizcaya Museum and Gardens",
+      "lat": 25.7445,
+      "lng": -80.2104,
+      "tags": ["museum", "garden", "heritage"],
+      "wiki_title": "Vizcaya Museum and Gardens"
+    },
+    {
+      "id": "miami-pamm",
+      "city": "miami",
+      "name": "Perez Art Museum Miami",
+      "lat": 25.7859,
+      "lng": -80.1862,
+      "tags": ["museum", "art", "waterfront"],
+      "wiki_title": "Perez Art Museum Miami"
+    },
+    {
+      "id": "miami-bayside-marketplace",
+      "city": "miami",
+      "name": "Bayside Marketplace",
+      "lat": 25.7783,
+      "lng": -80.1867,
+      "tags": ["market", "waterfront", "food"],
+      "wiki_title": "Bayside Marketplace"
+    },
+    {
+      "id": "miami-freedom-tower",
+      "city": "miami",
+      "name": "Freedom Tower",
+      "lat": 25.7802,
+      "lng": -80.1895,
+      "tags": ["heritage", "architecture", "culture"],
+      "wiki_title": "Freedom Tower (Miami)"
+    },
+    {
+      "id": "miami-little-havana",
+      "city": "miami",
+      "name": "Little Havana / Calle Ocho",
+      "lat": 25.765,
+      "lng": -80.2195,
+      "tags": ["culture", "food", "neighborhood"],
+      "wiki_title": "Little Havana"
+    },
+    {
+      "id": "miami-design-district",
+      "city": "miami",
+      "name": "Miami Design District",
+      "lat": 25.8133,
+      "lng": -80.1936,
+      "tags": ["design", "architecture", "luxury"],
+      "wiki_title": "Miami Design District"
+    },
+    {
+      "id": "miami-frost-science",
+      "city": "miami",
+      "name": "Frost Museum of Science",
+      "lat": 25.785,
+      "lng": -80.187,
+      "tags": ["museum", "family", "indoor"],
+      "wiki_title": "Phillip and Patricia Frost Museum of Science"
+    },
+    {
+      "id": "miami-the-bass",
+      "city": "miami",
+      "name": "The Bass",
+      "lat": 25.7963,
+      "lng": -80.1296,
+      "tags": ["museum", "art", "indoor"],
+      "wiki_title": "The Bass"
+    },
+    {
+      "id": "miami-beach-botanical-garden",
+      "city": "miami",
+      "name": "Miami Beach Botanical Garden",
+      "lat": 25.7941,
+      "lng": -80.1326,
+      "tags": ["garden", "calm", "shade"],
+      "wiki_title": "Miami Beach Botanical Garden"
+    },
+    {
+      "id": "miami-venetian-pool",
+      "city": "miami",
+      "name": "Venetian Pool",
+      "lat": 25.7463,
+      "lng": -80.276,
+      "tags": ["heritage", "family", "water"],
+      "wiki_title": "Venetian Pool"
+    },
+    {
+      "id": "miami-bill-baggs",
+      "city": "miami",
+      "name": "Bill Baggs Cape Florida State Park",
+      "lat": 25.6766,
+      "lng": -80.1583,
+      "tags": ["park", "beach", "views"],
+      "wiki_title": "Bill Baggs Cape Florida State Park"
+    },
+    {
+      "id": "miami-fairchild",
+      "city": "miami",
+      "name": "Fairchild Tropical Botanic Garden",
+      "lat": 25.676,
+      "lng": -80.274,
+      "tags": ["garden", "nature", "calm"],
+      "wiki_title": "Fairchild Tropical Botanic Garden"
+    },
+    {
+      "id": "dubai-burj-khalifa",
+      "city": "dubai",
+      "name": "Burj Khalifa",
+      "lat": 25.1972,
+      "lng": 55.2744,
+      "tags": ["architecture", "skyline", "views"],
+      "wiki_title": "Burj Khalifa"
+    },
+    {
+      "id": "dubai-mall",
+      "city": "dubai",
+      "name": "Dubai Mall",
+      "lat": 25.1985,
+      "lng": 55.2796,
+      "tags": ["mall", "indoor", "family"],
+      "wiki_title": "The Dubai Mall"
+    },
+    {
+      "id": "dubai-fountain",
+      "city": "dubai",
+      "name": "Dubai Fountain",
+      "lat": 25.1952,
+      "lng": 55.2755,
+      "tags": ["waterfront", "views", "night"],
+      "wiki_title": "The Dubai Fountain"
+    },
+    {
+      "id": "dubai-museum-future",
+      "city": "dubai",
+      "name": "Museum of the Future",
+      "lat": 25.2191,
+      "lng": 55.2819,
+      "tags": ["museum", "architecture", "indoor"],
+      "wiki_title": "Museum of the Future"
+    },
+    {
+      "id": "dubai-frame",
+      "city": "dubai",
+      "name": "Dubai Frame",
+      "lat": 25.2355,
+      "lng": 55.3003,
+      "tags": ["architecture", "views", "photo"],
+      "wiki_title": "Dubai Frame"
+    },
+    {
+      "id": "dubai-al-fahidi",
+      "city": "dubai",
+      "name": "Al Fahidi Historical Neighbourhood",
+      "lat": 25.2638,
+      "lng": 55.2992,
+      "tags": ["heritage", "culture", "walkable"],
+      "wiki_title": "Al Fahidi Historical Neighbourhood"
+    },
+    {
+      "id": "dubai-creek",
+      "city": "dubai",
+      "name": "Dubai Creek",
+      "lat": 25.2644,
+      "lng": 55.3126,
+      "tags": ["waterfront", "heritage", "local"],
+      "wiki_title": "Dubai Creek"
+    },
+    {
+      "id": "dubai-gold-souk",
+      "city": "dubai",
+      "name": "Dubai Gold Souk",
+      "lat": 25.2711,
+      "lng": 55.2973,
+      "tags": ["market", "heritage", "shopping"],
+      "wiki_title": "Dubai Gold Souk"
+    },
+    {
+      "id": "dubai-miracle-garden",
+      "city": "dubai",
+      "name": "Dubai Miracle Garden",
+      "lat": 25.0597,
+      "lng": 55.2446,
+      "tags": ["garden", "family", "photo"],
+      "wiki_title": "Dubai Miracle Garden"
+    },
+    {
+      "id": "dubai-jumeirah-mosque",
+      "city": "dubai",
+      "name": "Jumeirah Mosque",
+      "lat": 25.2333,
+      "lng": 55.2655,
+      "tags": ["culture", "architecture", "heritage"],
+      "wiki_title": "Jumeirah Mosque"
+    },
+    {
+      "id": "dubai-burj-al-arab",
+      "city": "dubai",
+      "name": "Burj Al Arab",
+      "lat": 25.1412,
+      "lng": 55.1853,
+      "tags": ["architecture", "luxury", "views"],
+      "wiki_title": "Burj Al Arab"
+    },
+    {
+      "id": "dubai-palm-jumeirah",
+      "city": "dubai",
+      "name": "Palm Jumeirah",
+      "lat": 25.1124,
+      "lng": 55.139,
+      "tags": ["waterfront", "views", "luxury"],
+      "wiki_title": "Palm Jumeirah"
+    },
+    {
+      "id": "dubai-atlantis",
+      "city": "dubai",
+      "name": "Atlantis The Palm",
+      "lat": 25.1304,
+      "lng": 55.1171,
+      "tags": ["family", "waterfront", "luxury"],
+      "wiki_title": "Atlantis, The Palm"
+    },
+    {
+      "id": "dubai-marina",
+      "city": "dubai",
+      "name": "Dubai Marina",
+      "lat": 25.08,
+      "lng": 55.14,
+      "tags": ["waterfront", "skyline", "night"],
+      "wiki_title": "Dubai Marina"
+    },
+    {
+      "id": "dubai-opera",
+      "city": "dubai",
+      "name": "Dubai Opera",
+      "lat": 25.2079,
+      "lng": 55.2723,
+      "tags": ["culture", "architecture", "night"],
+      "wiki_title": "Dubai Opera"
+    },
+    {
+      "id": "abu-dhabi-grand-mosque",
+      "city": "abu-dhabi",
+      "name": "Sheikh Zayed Grand Mosque",
+      "lat": 24.4128,
+      "lng": 54.4749,
+      "tags": ["architecture", "culture", "heritage"],
+      "wiki_title": "Sheikh Zayed Grand Mosque"
+    },
+    {
+      "id": "abu-dhabi-louvre",
+      "city": "abu-dhabi",
+      "name": "Louvre Abu Dhabi",
+      "lat": 24.5337,
+      "lng": 54.3986,
+      "tags": ["museum", "architecture", "waterfront"],
+      "wiki_title": "Louvre Abu Dhabi"
+    },
+    {
+      "id": "abu-dhabi-qasr-al-watan",
+      "city": "abu-dhabi",
+      "name": "Qasr Al Watan",
+      "lat": 24.4634,
+      "lng": 54.306,
+      "tags": ["palace", "architecture", "culture"],
+      "wiki_title": "Qasr Al Watan"
+    },
+    {
+      "id": "abu-dhabi-emirates-palace",
+      "city": "abu-dhabi",
+      "name": "Emirates Palace",
+      "lat": 24.4616,
+      "lng": 54.317,
+      "tags": ["luxury", "architecture", "waterfront"],
+      "wiki_title": "Emirates Palace Mandarin Oriental, Abu Dhabi"
+    },
+    {
+      "id": "abu-dhabi-qasr-al-hosn",
+      "city": "abu-dhabi",
+      "name": "Qasr Al Hosn",
+      "lat": 24.4824,
+      "lng": 54.3545,
+      "tags": ["heritage", "culture", "museum"],
+      "wiki_title": "Qasr Al Hosn"
+    },
+    {
+      "id": "abu-dhabi-corniche",
+      "city": "abu-dhabi",
+      "name": "Corniche Beach",
+      "lat": 24.4748,
+      "lng": 54.336,
+      "tags": ["beach", "waterfront", "views"],
+      "wiki_title": "Corniche Beach"
+    },
+    {
+      "id": "abu-dhabi-etihad-towers",
+      "city": "abu-dhabi",
+      "name": "Etihad Towers",
+      "lat": 24.4582,
+      "lng": 54.3216,
+      "tags": ["architecture", "skyline", "views"],
+      "wiki_title": "Etihad Towers"
+    },
+    {
+      "id": "abu-dhabi-observation-deck-300",
+      "city": "abu-dhabi",
+      "name": "Observation Deck at 300",
+      "lat": 24.4591,
+      "lng": 54.3213,
+      "tags": ["views", "skyline", "luxury"],
+      "wiki_title": "Etihad Towers"
+    },
+    {
+      "id": "abu-dhabi-yas-marina-circuit",
+      "city": "abu-dhabi",
+      "name": "Yas Marina Circuit",
+      "lat": 24.4672,
+      "lng": 54.6031,
+      "tags": ["sport", "family", "iconic"],
+      "wiki_title": "Yas Marina Circuit"
+    },
+    {
+      "id": "abu-dhabi-ferrari-world",
+      "city": "abu-dhabi",
+      "name": "Ferrari World Abu Dhabi",
+      "lat": 24.4836,
+      "lng": 54.6073,
+      "tags": ["family", "theme-park", "indoor"],
+      "wiki_title": "Ferrari World Abu Dhabi"
+    },
+    {
+      "id": "abu-dhabi-warner-bros-world",
+      "city": "abu-dhabi",
+      "name": "Warner Bros. World Abu Dhabi",
+      "lat": 24.4907,
+      "lng": 54.5996,
+      "tags": ["family", "theme-park", "indoor"],
+      "wiki_title": "Warner Bros. World Abu Dhabi"
+    },
+    {
+      "id": "abu-dhabi-mangrove-park",
+      "city": "abu-dhabi",
+      "name": "Mangrove National Park",
+      "lat": 24.4453,
+      "lng": 54.434,
+      "tags": ["nature", "waterfront", "calm"],
+      "wiki_title": "Mangrove National Park"
+    },
+    {
+      "id": "abu-dhabi-heritage-village",
+      "city": "abu-dhabi",
+      "name": "Heritage Village",
+      "lat": 24.4719,
+      "lng": 54.319,
+      "tags": ["heritage", "culture", "family"],
+      "wiki_title": "Heritage Village (Abu Dhabi)"
+    },
+    {
+      "id": "abu-dhabi-manarat-al-saadiyat",
+      "city": "abu-dhabi",
+      "name": "Manarat Al Saadiyat",
+      "lat": 24.5352,
+      "lng": 54.42,
+      "tags": ["art", "culture", "indoor"],
+      "wiki_title": "Manarat Al Saadiyat"
+    },
+    {
+      "id": "abu-dhabi-abrahamic-family-house",
+      "city": "abu-dhabi",
+      "name": "Abrahamic Family House",
+      "lat": 24.5384,
+      "lng": 54.4066,
+      "tags": ["architecture", "culture", "heritage"],
+      "wiki_title": "Abrahamic Family House"
+    }
+  ]
+}

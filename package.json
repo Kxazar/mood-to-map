@@ -1,0 +1,10 @@
+{
+  "name": "mood-to-map",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "npm run check:py && npm run check:js",
+    "check:py": "python -m py_compile server.py vercel_api.py api/health.py api/route.py api/attractions.py api/attraction_copy.py",
+    "check:js": "node --check public/app.js && node --check scripts/verify-ui.cjs"
+  }
+}
