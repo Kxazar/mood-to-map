@@ -105,9 +105,10 @@ async function init() {
 
   loadAttractions(getSelectedCity(), false);
   const params = new URLSearchParams(window.location.search);
-  const storyId = params.get("story");
+  const storyPath = window.location.pathname.match(/^\/(?:story|journey)\/([a-z0-9][a-z0-9-]{2,96})\/?$/i);
+  const storyId = params.get("story") || storyPath?.[1] || "";
   if (storyId) {
-    loadStory(storyId, params.get("source") || "");
+    loadStory(storyId, params.get("source") || (storyPath ? "vps" : ""));
   }
 }
 

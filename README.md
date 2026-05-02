@@ -60,19 +60,25 @@ Each city also has a 15-point attraction layer on the map. Attraction cards use 
 
 ## Hermes Route Studio
 
-Hermes can now create a route pack that the web app renders as a visual story. On the VPS, run:
+Hermes creates a real route pack that the web app renders as a visual story. On the VPS, start Hermes and ask in natural language:
 
 ```bash
-cd /home/codex/mood-to-map
-python3 scripts/hermes_route_studio.py --id hermes-miami-art-water --city miami --duration 2h --start-time 10:00 --intent "quiet local art walk with coffee, shade, and one waterfront ending"
+hermes
 ```
 
-The script runs `hermes` through the Nous/Kimi provider, asks it to choose and sequence route stops, validates the returned JSON, enriches stops with city memory and photos, and saves the pack to `logs/story-packs/<id>.json`.
+Example prompt:
 
-Open the generated story through Vercel:
+```txt
+Create a 2-hour Miami Mood-to-Map story with a GTA 6 vibe: neon streets, art walls, stylish photo spots, coffee, and a waterfront ending. Save it as a real story pack and return the story id and URL.
+```
+
+Hermes is configured with a local Mood-to-Map skill and `AGENTS.md` instructions. For a route request, it must run the real story generator, wait for it to save `logs/story-packs/<id>.json`, and return the URL printed by the generator.
+
+Open generated stories through either format:
 
 ```txt
 https://mood-to-map.vercel.app/?story=hermes-miami-art-water&source=vps
+https://mood-to-map.vercel.app/story/hermes-miami-art-water
 ```
 
 In this mode the form collapses and the first screen becomes a storyboard: active scene photo, Hermes trace, map route, timed cards, and play/prev/next controls.

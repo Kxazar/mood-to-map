@@ -6,6 +6,14 @@
   },
   "rewrites": [
     {
+      "source": "/story/:id",
+      "destination": "/"
+    },
+    {
+      "source": "/journey/:id",
+      "destination": "/"
+    },
+    {
       "source": "/api/attraction-copy",
       "destination": "/api/attraction_copy"
     }

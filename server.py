@@ -1403,6 +1403,9 @@ class Handler(SimpleHTTPRequestHandler):
             except Exception as exc:
                 self.send_json({"error": str(exc)}, status=400)
             return
+        if re.match(r"^/(story|journey)/[a-z0-9][a-z0-9-]{2,96}/?$", parsed.path, re.IGNORECASE):
+            self.path = "/index.html"
+            return super().do_GET()
         return super().do_GET()
 
     def do_POST(self):
