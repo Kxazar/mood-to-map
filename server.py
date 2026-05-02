@@ -17,11 +17,14 @@ ATTRACTIONS_DATA = ROOT / "data" / "attractions.json"
 ATTRACTION_ASSETS_DATA = ROOT / "data" / "attraction_assets.json"
 DEFAULT_LOGS = Path("/tmp/mood-to-map-logs") if os.environ.get("VERCEL") else ROOT / "logs"
 LOGS = Path(os.environ.get("MOOD_TO_MAP_LOG_DIR", str(DEFAULT_LOGS)))
+STORY_PACKS = LOGS / "story-packs"
+STATIC_STORIES = ROOT / "data" / "stories"
 ATTRACTION_ASSET_CACHE = LOGS / "attraction-assets-cache.json"
 ATTRACTION_COPY_CACHE = LOGS / "attraction-copy-cache.json"
 ATTRACTION_COPY_VERSION = "v2-place-briefing"
 DEFAULT_MOONSHOT_BASE_URL = "https://api.moonshot.ai/v1"
 DEFAULT_NOUS_BASE_URL = "https://inference-api.nousresearch.com/v1"
+DEFAULT_HERMES_STORY_SOURCE_URL = "http://77.232.41.200:8080/api/story"
 DEFAULT_LLM_TIMEOUT_SECONDS = 90
 WIKI_USER_AGENT = "Mood-to-Map-Hackathon/1.0 (Nous demo city guide)"
 
@@ -184,6 +187,41 @@ def write_cache(path, data):
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     except OSError:
         pass
+
+
+def safe_story_id(value):
+    story_id = str(value or "").strip()
+    if not re.match(r"^[a-z0-9][a-z0-9-]{2,96}$", story_id):
+        raise ValueError("Invalid story id")
+    return story_id
+
+
+def read_story_pack(story_id):
+    for directory in (STORY_PACKS, STATIC_STORIES):
+        path = directory / f"{story_id}.json"
+        if path.exists() and path.is_file():
+            return json.loads(path.read_text(encoding="utf-8"))
+    return None
+
+
+def fetch_vps_story(story_id):
+    base_url = os.environ.get("HERMES_STORY_SOURCE_URL", DEFAULT_HERMES_STORY_SOURCE_URL).rstrip("/")
+    url = f"{base_url}?{urlencode({'id': story_id})}"
+    req = urllib.request.Request(url, headers={"User-Agent": WIKI_USER_AGENT})
+    with urllib.request.urlopen(req, timeout=12) as res:
+        return json.loads(res.read().decode("utf-8"))
+
+
+def handle_story(query):
+    params = parse_qs(query or "")
+    story_id = safe_story_id(params.get("id", [""])[0])
+    source = (params.get("source", [""])[0] or "").strip().lower()
+    if source == "vps":
+        return fetch_vps_story(story_id)
+    story = read_story_pack(story_id)
+    if not story:
+        raise ValueError("Story not found")
+    return story
 
 
 def wiki_summary(title):
@@ -1356,6 +1394,12 @@ class Handler(SimpleHTTPRequestHandler):
         if parsed.path == "/api/attractions":
             try:
                 self.send_json(handle_attractions(parsed.query))
+            except Exception as exc:
+                self.send_json({"error": str(exc)}, status=400)
+            return
+        if parsed.path == "/api/story":
+            try:
+                self.send_json(handle_story(parsed.query))
             except Exception as exc:
                 self.send_json({"error": str(exc)}, status=400)
             return

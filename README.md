@@ -24,6 +24,7 @@ The repo includes Vercel serverless entrypoints in `api/` plus a tiny shared han
 - `/api/route`
 - `/api/attractions`
 - `/api/attraction-copy`
+- `/api/story`
 
 Static files are served from `public/`. The local VPS server still uses `server.py`, while Vercel imports the same route-generation functions through the serverless handlers.
 
@@ -57,6 +58,25 @@ The demo also supports route variants, per-stop Google Maps links, a full-route 
 
 Each city also has a 15-point attraction layer on the map. Attraction cards use Wikipedia/Wikimedia photos, then ask Kimi for compact place notes on click; generated notes are cached in `logs/attraction-copy-cache.json`.
 
+## Hermes Route Studio
+
+Hermes can now create a route pack that the web app renders as a visual story. On the VPS, run:
+
+```bash
+cd /home/codex/mood-to-map
+python3 scripts/hermes_route_studio.py --id hermes-miami-art-water --city miami --duration 2h --start-time 10:00 --intent "quiet local art walk with coffee, shade, and one waterfront ending"
+```
+
+The script runs `hermes` through the Nous/Kimi provider, asks it to choose and sequence route stops, validates the returned JSON, enriches stops with city memory and photos, and saves the pack to `logs/story-packs/<id>.json`.
+
+Open the generated story through Vercel:
+
+```txt
+https://mood-to-map.vercel.app/?story=hermes-miami-art-water&source=vps
+```
+
+In this mode the form collapses and the first screen becomes a storyboard: active scene photo, Hermes trace, map route, timed cards, and play/prev/next controls.
+
 ## Deployments
 
 Vercel production:
@@ -81,13 +101,13 @@ sudo systemctl restart mood-to-map
 
 ## Hackathon Angle
 
-Hermes is positioned as the route director:
+Hermes is now used as the route director:
 
 1. Understand the traveler's mood and constraints.
-2. Select places from a curated city memory.
-3. Build a story arc across the day.
-4. Ask Kimi to discover places or write compact itinerary copy.
-5. Return structured JSON for the interactive map.
+2. Select places from curated city memory.
+3. Generate a structured route pack through Nous/Kimi.
+4. Validate and enrich the pack with stable place data and photos.
+5. Render the result as an interactive map story.
 
 ## Cities
 

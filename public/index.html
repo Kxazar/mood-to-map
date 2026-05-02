@@ -128,6 +128,23 @@
           <button class="primary-action" type="submit">Generate route</button>
         </form>
 
+        <section id="storyPanel" class="story-panel" hidden aria-live="polite">
+          <div class="story-frame">
+            <img id="storyScenePhoto" alt="" />
+            <div class="story-frame-copy">
+              <p id="storySceneSource" class="eyebrow">Hermes Route Studio</p>
+              <h2 id="storySceneTitle">Story route</h2>
+              <p id="storySceneText">A Hermes-generated route pack will appear here.</p>
+            </div>
+          </div>
+          <div id="storyTrace" class="story-trace"></div>
+          <div class="story-controls">
+            <button id="storyPrev" type="button">Prev</button>
+            <button id="storyPlay" type="button">Play route</button>
+            <button id="storyNext" type="button">Next</button>
+          </div>
+        </section>
+
         <section id="attractionPanel" class="attraction-panel" hidden aria-live="polite">
           <img id="attractionPhoto" alt="" />
           <div class="attraction-body">
@@ -174,6 +191,6 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-    <script src="/app.js?v=place-briefing-v2" type="module"></script>
+    <script src="/app.js?v=hermes-route-studio-v1" type="module"></script>
   </body>
 </html>

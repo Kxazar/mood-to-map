@@ -33,6 +33,15 @@ const attractionMeta = document.querySelector("#attractionMeta");
 const attractionCopy = document.querySelector("#attractionCopy");
 const attractionMapsLink = document.querySelector("#attractionMapsLink");
 const attractionWikiLink = document.querySelector("#attractionWikiLink");
+const storyPanel = document.querySelector("#storyPanel");
+const storyScenePhoto = document.querySelector("#storyScenePhoto");
+const storySceneSource = document.querySelector("#storySceneSource");
+const storySceneTitle = document.querySelector("#storySceneTitle");
+const storySceneText = document.querySelector("#storySceneText");
+const storyTrace = document.querySelector("#storyTrace");
+const storyPrev = document.querySelector("#storyPrev");
+const storyPlay = document.querySelector("#storyPlay");
+const storyNext = document.querySelector("#storyNext");
 
 const map = L.map("map", {
   zoomControl: false,
@@ -53,6 +62,9 @@ let currentRoute = null;
 let currentVariant = "balanced";
 let lockedStopIds = new Set();
 let currentAttractions = [];
+let storyMode = false;
+let storyIndex = 0;
+let storyTimer = null;
 
 async function init() {
   document.querySelectorAll("[data-prompt]").forEach((button) => {
@@ -92,6 +104,11 @@ async function init() {
   }
 
   loadAttractions(getSelectedCity(), false);
+  const params = new URLSearchParams(window.location.search);
+  const storyId = params.get("story");
+  if (storyId) {
+    loadStory(storyId, params.get("source") || "");
+  }
 }
 
 function getSelectedCity() {
@@ -123,6 +140,13 @@ function formPayload(options = {}) {
 
 async function generateRoute(options = {}) {
   const payload = formPayload(options);
+  if (!options.keepStoryMode) {
+    clearStoryTimer();
+    storyMode = false;
+    storyIndex = 0;
+    document.body.classList.remove("story-mode");
+    if (storyPanel) storyPanel.hidden = true;
+  }
   submitButton.disabled = true;
   submitButton.textContent = "Generating";
   routeSource.textContent = options.statusText || (payload.useAiPlaces ? "Asking Kimi for places" : "Working");
@@ -181,6 +205,45 @@ async function requestRoute(payload) {
     throw new Error(route.error || `Route request failed (${response.status})`);
   }
   return route;
+}
+
+async function loadStory(storyId, source = "") {
+  const params = new URLSearchParams({ id: storyId });
+  if (source) params.set("source", source);
+  routeSource.textContent = "Hermes Route Studio";
+  routeTitle.textContent = "Loading story route";
+  routeLogline.textContent = "Hermes is handing the route pack to the visual map.";
+
+  try {
+    const response = await fetch(`/api/story?${params.toString()}`);
+    const story = await response.json();
+    if (!response.ok || story.error) throw new Error(story.error || "Story failed");
+    storyMode = true;
+    document.body.classList.add("story-mode");
+    storyIndex = 0;
+    currentVariant = story.variant || "balanced";
+    syncCityControl(story.city?.id);
+    if (story.city?.id) {
+      loadAttractions(story.city.id, false);
+    }
+    renderRoute(story);
+    renderStoryPanel(story);
+  } catch (error) {
+    storyMode = false;
+    routeSource.textContent = "Story error";
+    routeTitle.textContent = "Story failed";
+    routeLogline.textContent = error.message;
+  }
+}
+
+function syncCityControl(cityId) {
+  if (!cityId) return;
+  const input = document.querySelector(`input[name="city"][value="${CSS.escape(cityId)}"]`);
+  if (input) input.checked = true;
+  if (cityCenters[cityId]) {
+    map.setView(cityCenters[cityId], cityId === "dubai" ? 11 : 12);
+    mapCaption.textContent = cityNames[cityId] || cityId;
+  }
 }
 
 function updateVariantButtons() {
@@ -441,7 +504,7 @@ function renderRoute(route) {
   syncLocksToRoute(route);
   updateVariantButtons();
   if (routeTools) {
-    routeTools.hidden = false;
+    routeTools.hidden = Boolean(storyMode);
   }
   if (routeMapsLink) {
     routeMapsLink.href = buildRouteMapsUrl(route);
@@ -453,6 +516,8 @@ function renderRoute(route) {
       ? `${llm.provider || "Kimi"} AI fallback: ${route.model}`
       : route.source === "kimi-discovered"
       ? `${llm.provider || "Kimi"} AI places: ${route.model}`
+      : route.source === "hermes-route-studio"
+      ? `${llm.provider || "Hermes"} route pack: ${route.model}`
       : `${llm.provider || "Kimi"} polished: ${route.model}`
     : route.ai_places_error
     ? "Local fallback"
@@ -483,9 +548,15 @@ function renderRoute(route) {
     const key = stopKey(stop);
     const locked = lockedStopIds.has(key);
     const item = document.createElement("li");
-    item.className = `stop-card${locked ? " is-locked" : ""}`;
+    item.className = `stop-card${locked ? " is-locked" : ""}${storyMode && index === storyIndex ? " is-active" : ""}`;
+    item.dataset.storyIndex = String(index);
     item.innerHTML = `
       <div>
+        ${
+          stop.photo_url
+            ? `<img class="stop-photo" src="${escapeHtml(stop.photo_url)}" alt="${escapeHtml(stop.name)}" loading="lazy" />`
+            : ""
+        }
         <div class="stop-topline">
           ${stop.time_label ? `<span class="stop-time">${escapeHtml(stop.time_label)}</span>` : ""}
           <span>${escapeHtml(stop.duration_minutes || "")} min</span>
@@ -494,11 +565,15 @@ function renderRoute(route) {
         </div>
         <div class="stop-title-row">
           <h3>${escapeHtml(stop.name)}</h3>
-          <div class="stop-actions">
-            <button type="button" data-action="toggle-lock" data-index="${index}">${locked ? "Unlock" : "Lock"}</button>
-            <button type="button" data-action="replace-stop" data-index="${index}">Replace</button>
-            <a href="${escapeHtml(buildStopMapsUrl(stop))}" target="_blank" rel="noreferrer">Maps</a>
-          </div>
+          ${
+            storyMode
+              ? `<div class="stop-actions"><a href="${escapeHtml(buildStopMapsUrl(stop))}" target="_blank" rel="noreferrer">Maps</a></div>`
+              : `<div class="stop-actions">
+                  <button type="button" data-action="toggle-lock" data-index="${index}">${locked ? "Unlock" : "Lock"}</button>
+                  <button type="button" data-action="replace-stop" data-index="${index}">Replace</button>
+                  <a href="${escapeHtml(buildStopMapsUrl(stop))}" target="_blank" rel="noreferrer">Maps</a>
+                </div>`
+          }
         </div>
         <p class="stop-summary">${escapeHtml(stop.summary || stop.reason || "")}</p>
         <div class="stop-detail-grid">
@@ -546,6 +621,9 @@ function renderMap(route) {
       <p class="popup-text">${escapeHtml(stop.summary)}</p>
       <p class="popup-text">${escapeHtml(stop.activity || "")}</p>
     `);
+    marker.on("click", () => {
+      if (storyMode) setStoryIndex(index);
+    });
     markerLayer.addLayer(marker);
   });
 
@@ -561,6 +639,60 @@ function renderMap(route) {
     map.setView(route.city.center, 12);
   }
   mapCaption.textContent = route.timeline_note || route.route_note;
+}
+
+function renderStoryPanel(route) {
+  if (!storyPanel || !route?.stops?.length) return;
+  storyPanel.hidden = false;
+  storyTrace.innerHTML = "";
+  (route.agent_trace || []).slice(0, 6).forEach((step, index) => {
+    const item = document.createElement("span");
+    item.textContent = `${index + 1}. ${step}`;
+    storyTrace.appendChild(item);
+  });
+  updateStoryScene();
+}
+
+function updateStoryScene() {
+  if (!storyPanel || !currentRoute?.stops?.length) return;
+  const stops = currentRoute.stops;
+  storyIndex = Math.max(0, Math.min(storyIndex, stops.length - 1));
+  const stop = stops[storyIndex];
+  storySceneSource.textContent = `${storyIndex + 1}/${stops.length} | Hermes Route Studio`;
+  storySceneTitle.textContent = stop.name;
+  storySceneText.textContent = stop.micro_story || stop.activity || stop.summary || "";
+  storyScenePhoto.src = stop.photo_url || "";
+  storyScenePhoto.alt = stop.photo_url ? `${stop.name} photo` : "";
+  storyScenePhoto.hidden = !stop.photo_url;
+  document.querySelectorAll(".stop-card").forEach((card) => {
+    card.classList.toggle("is-active", Number(card.dataset.storyIndex) === storyIndex);
+  });
+}
+
+function setStoryIndex(index) {
+  storyIndex = index;
+  updateStoryScene();
+}
+
+function clearStoryTimer() {
+  if (storyTimer) {
+    clearInterval(storyTimer);
+    storyTimer = null;
+  }
+  if (storyPlay) storyPlay.textContent = "Play route";
+}
+
+function toggleStoryPlayback() {
+  if (!currentRoute?.stops?.length) return;
+  if (storyTimer) {
+    clearStoryTimer();
+    return;
+  }
+  storyPlay.textContent = "Pause";
+  storyTimer = setInterval(() => {
+    storyIndex = (storyIndex + 1) % currentRoute.stops.length;
+    updateStoryScene();
+  }, 3500);
 }
 
 function markerTone(stop, index) {
@@ -605,6 +737,10 @@ form.addEventListener("submit", (event) => {
 });
 
 stopsList.addEventListener("click", (event) => {
+  const storyCard = event.target.closest(".stop-card");
+  if (storyMode && storyCard?.dataset.storyIndex) {
+    setStoryIndex(Number(storyCard.dataset.storyIndex));
+  }
   const button = event.target.closest("[data-action]");
   if (!button) return;
   const index = Number(button.dataset.index);
@@ -623,5 +759,17 @@ stopsList.addEventListener("click", (event) => {
     replaceStop(index);
   }
 });
+
+storyPrev?.addEventListener("click", () => {
+  if (!currentRoute?.stops?.length) return;
+  setStoryIndex((storyIndex - 1 + currentRoute.stops.length) % currentRoute.stops.length);
+});
+
+storyNext?.addEventListener("click", () => {
+  if (!currentRoute?.stops?.length) return;
+  setStoryIndex((storyIndex + 1) % currentRoute.stops.length);
+});
+
+storyPlay?.addEventListener("click", toggleStoryPlayback);
 
 init();
